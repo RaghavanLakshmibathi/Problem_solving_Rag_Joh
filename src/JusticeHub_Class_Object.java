@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-class CourtCase {
+class CourtCase1 {
 
     String caseId;
     String plaintiffName;
@@ -10,12 +10,7 @@ class CourtCase {
     String hearingDate;
     String status;
 
-    CourtCase() {
-        status = "Pending";
-    }
-
-
-    CourtCase(String caseId, String plaintiffName, String caseType,
+    CourtCase1(String caseId, String plaintiffName, String caseType,
               String judgeName, String hearingDate) {
 
         this.caseId = caseId;
@@ -28,6 +23,7 @@ class CourtCase {
 
     void display() {
 
+        System.out.println("\n------------------------------");
         System.out.println("Case ID       : " + caseId);
         System.out.println("Plaintiff     : " + plaintiffName);
         System.out.println("Case Type     : " + caseType);
@@ -37,7 +33,7 @@ class CourtCase {
     }
 }
 
-public class JusticeHub {
+public class JusticeHub_Class_Object {
 
     public static void main(String[] args) {
 
@@ -64,10 +60,7 @@ public class JusticeHub {
             System.out.println("1. Register New Case");
             System.out.println("2. View All Cases");
             System.out.println("3. Update Case Status");
-            System.out.println("4. Search Case by Case ID");
-            System.out.println("5. View Cases by Judge");
-            System.out.println("6. Total Registered Cases");
-            System.out.println("7. Exit");
+            System.out.println("4. Exit");
 
             System.out.print("Enter Choice : ");
             int choice = sc.nextInt();
@@ -84,8 +77,6 @@ public class JusticeHub {
                     String type = sc.nextLine();
 
                     String caseId = "JH" + caseNumber++;
-
-                    // Find minimum workload
 
                     int min = workload[0];
 
@@ -112,14 +103,11 @@ public class JusticeHub {
 
                     }
 
-                    int selected =
-                            available[random.nextInt(availableCount)];
+                    int selected = available[random.nextInt(availableCount)];
 
                     workload[selected]++;
 
-                    int days = random.nextInt(30)+1;
-
-                    String hearingDate = days + " Days From Today";
+                    String hearingDate = (random.nextInt(30)+1) + " Days From Today";
 
                     cases[count] = new CourtCase(
                             caseId,
@@ -132,9 +120,9 @@ public class JusticeHub {
                     count++;
 
                     System.out.println("\nCase Registered Successfully");
-                    System.out.println("Case ID : "+caseId);
-                    System.out.println("Judge Assigned : "+judges[selected]);
-                    System.out.println("Hearing : "+hearingDate);
+                    System.out.println("Case ID : " + caseId);
+                    System.out.println("Judge Assigned : " + judges[selected]);
+                    System.out.println("Hearing Date : " + hearingDate);
 
                     break;
 
@@ -147,13 +135,9 @@ public class JusticeHub {
                     }
                     else{
 
-                        int i=0;
-
-                        while(i<count){
+                        for(int i=0;i<count;i++){
 
                             cases[i].display();
-
-                            i++;
 
                         }
 
@@ -166,31 +150,26 @@ public class JusticeHub {
                     if(count==0){
 
                         System.out.println("No Cases Available.");
-
                         break;
 
                     }
 
                     System.out.print("Enter Case ID : ");
-
                     String search = sc.nextLine();
 
                     boolean found = false;
 
-                    int i=0;
-
-                    while(i<count){
+                    for(int i=0;i<count;i++){
 
                         if(cases[i].caseId.equals(search)){
 
                             found = true;
 
-                            System.out.println("Current Status : "
-                                    + cases[i].status);
+                            System.out.println("Current Status : " + cases[i].status);
 
-                            System.out.println("1.Pending");
-                            System.out.println("2.Hearing");
-                            System.out.println("3.Closed");
+                            System.out.println("1. Pending");
+                            System.out.println("2. Hearing");
+                            System.out.println("3. Closed");
 
                             int option = sc.nextInt();
 
@@ -213,7 +192,6 @@ public class JusticeHub {
                                     if(cases[i].judgeName.equals(judges[j])){
 
                                         workload[j]--;
-
                                         break;
 
                                     }
@@ -233,8 +211,6 @@ public class JusticeHub {
 
                         }
 
-                        i++;
-
                     }
 
                     if(!found){
@@ -249,93 +225,13 @@ public class JusticeHub {
 
                 case 4:
 
-                    if(count==0){
-
-                        System.out.println("No Cases Registered.");
-                        break;
-
-                    }
-
-                    System.out.print("Enter Case ID : ");
-                    String id = sc.nextLine();
-
-                    boolean caseFound = false;
-
-                    for(int k=0;k<count;k++){
-
-                        if(cases[k].caseId.equals(id)){
-
-                            cases[k].display();
-                            caseFound = true;
-                            break;
-
-                        }
-
-                    }
-
-                    if(!caseFound){
-
-                        System.out.println("Case ID Not Found.");
-
-                    }
-
-
-                    break;
-
-                case 5:
-
-                    if(count==0){
-
-                        System.out.println("No Cases Registered.");
-                        break;
-
-                    }
-
-                    System.out.print("Enter Judge Name : ");
-                    String judge = sc.nextLine();
-
-                    boolean judgeFound = false;
-
-                    for(int k=0;k<count;k++){
-
-                        if(cases[k].judgeName.equalsIgnoreCase(judge)){
-
-                            cases[k].display();
-                            judgeFound = true;
-
-                        }
-
-                    }
-
-                    if(!judgeFound){
-
-                        System.out.println("No Cases Found.");
-
-                    }
-
-                    break;
-
-                case 6:
-
-                    System.out.println("Total Registered Cases : " + count);
-
-                    break;
-                case 7:
-
                     System.out.println("Thank You For Using Justice Hub");
-
                     System.exit(0);
-
-
 
                 default:
 
                     System.out.println("Invalid Choice.");
-
             }
-
         }
-
     }
-
 }
