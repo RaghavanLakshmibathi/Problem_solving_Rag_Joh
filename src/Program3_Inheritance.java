@@ -1,6 +1,3 @@
-// Program #3 : Inheritance (Simple + Multilevel) - Justice Hub Domain
-
-// ---------- Base Class ----------
 class LegalCase {
 
     String caseId;
@@ -20,26 +17,24 @@ class LegalCase {
     }
 }
 
-// ---------- Simple Inheritance : CourtTrial extends LegalCase ----------
 class CourtTrial extends LegalCase {
 
     String judgeName;
     String hearingDate;
 
     CourtTrial(String caseId, String plaintiffName, String judgeName, String hearingDate) {
-        super(caseId, plaintiffName);          // reusing base constructor
+        super(caseId, plaintiffName);
         this.judgeName = judgeName;
         this.hearingDate = hearingDate;
     }
 
     void showCourtDetails() {
-        showCase();                            // reusing base method
+        showCase();
         System.out.println("Judge      : " + judgeName);
         System.out.println("Hearing    : " + hearingDate);
     }
 }
 
-// ---------- Multilevel Inheritance : AppealCase extends CourtTrial ----------
 class AppealCase extends CourtTrial {
 
     String appealReason;
@@ -53,7 +48,7 @@ class AppealCase extends CourtTrial {
     }
 
     void showAppealDetails() {
-        showCourtDetails();                    // reusing parent's method (which reuses grandparent)
+        showCourtDetails();
         System.out.println("Appeal For : " + appealReason);
         System.out.println("Higher Court: " + higherCourt);
     }
@@ -63,7 +58,7 @@ public class Program3_Inheritance {
 
     public static void main(String[] args) {
 
-        System.out.println("===== SIMPLE INHERITANCE (CourtTrial extends LegalCase) =====");
+        System.out.println("SIMPLE INHERITANCE (CourtTrial extends LegalCase)");
         CourtTrial court = new CourtTrial("JH1001", "Ali Khan", "Justice Sarah", "10 Days From Today");
         court.showCourtDetails();
 
