@@ -1,122 +1,114 @@
-// Program #4 : Custom ArrayList using Multilevel Inheritance - Justice Hub Domain
-// Interface CustomCollection -> Abstract Class CustomList -> Class CustomArrayList
+import java.util.Arrays;
 
-// ---------- Interface ----------
 interface CustomCollection {
-    void add(String caseId);
+
+    void add(String caseName);
+
+    void remove(int index);
+
     String get(int index);
-    boolean remove(String caseId);
+
     int size();
-    boolean isEmpty();
-    boolean contains(String caseId);
+
     void display();
 }
 
-// ---------- Abstract Class ----------
 abstract class CustomList implements CustomCollection {
 
     protected String[] data = new String[5];
     protected int count = 0;
 
-    // common reusable logic
-    public int size() {
-        return count;
-    }
+    void increaseSize() {
 
-    public boolean isEmpty() {
-        return count == 0;
+        data = Arrays.copyOf(data, data.length * 2);
     }
-
-    public boolean contains(String caseId) {
-        for (int i = 0; i < count; i++) {
-            if (data[i].equals(caseId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // abstract methods forced onto the child class
-    public abstract void add(String caseId);
-    public abstract boolean remove(String caseId);
 }
 
-// ---------- Concrete Class ----------
+
 class CustomArrayList extends CustomList {
 
-    // grow the array when full
-    private void ensureCapacity() {
+    @Override
+    public void add(String caseName) {
+
         if (count == data.length) {
-            String[] bigger = new String[data.length * 2];
-            for (int i = 0; i < count; i++) {
-                bigger[i] = data[i];
-            }
-            data = bigger;
+            increaseSize();
         }
+
+        data[count] = caseName;
+        count++;
     }
 
-    public void add(String caseId) {
-        ensureCapacity();
-        data[count++] = caseId;
-    }
+    @Override
+    public void remove(int index) {
 
-    public String get(int index) {
         if (index < 0 || index >= count) {
-            System.out.println("Invalid Index.");
-            return null;
+            System.out.println("Invalid index");
+            return;
         }
+
+        for (int i = index; i < count - 1; i++) {
+            data[i] = data[i + 1];
+        }
+
+        count--;
+    }
+
+    @Override
+    public String get(int index) {
+
+        if (index < 0 || index >= count) {
+            return "Invalid index";
+        }
+
         return data[index];
     }
 
-    public boolean remove(String caseId) {
-        for (int i = 0; i < count; i++) {
-            if (data[i].equals(caseId)) {
-                for (int j = i; j < count - 1; j++) {
-                    data[j] = data[j + 1];
-                }
-                data[--count] = null;
-                return true;
-            }
-        }
-        return false;
+    @Override
+    public int size() {
+
+        return count;
     }
 
+    @Override
     public void display() {
-        if (isEmpty()) {
-            System.out.println("No Case IDs Stored.");
-            return;
-        }
-        System.out.print("Case IDs : ");
+
         for (int i = 0; i < count; i++) {
-            System.out.print(data[i] + (i < count - 1 ? ", " : ""));
+            System.out.println(i + " : " + data[i]);
         }
-        System.out.println();
     }
 }
+
 
 public class Program4_CustomArrayList {
 
     public static void main(String[] args) {
 
-        CustomArrayList caseList = new CustomArrayList();
+        CustomArrayList cases = new CustomArrayList();
 
-        caseList.add("JH1001");
-        caseList.add("JH1002");
-        caseList.add("JH1003");
-        caseList.add("JH1004");
-        caseList.add("JH1005");
-        caseList.add("JH1006");   // triggers auto-grow
+        System.out.println("===== JUSTICE HUB =====");
 
-        System.out.println("Size            : " + caseList.size());
-        caseList.display();
+        // Add cases
+        cases.add("Murder Case");
+        cases.add("Property Case");
+        cases.add("Cyber Crime Case");
+        cases.add("Family Case");
 
-        System.out.println("Get index 2     : " + caseList.get(2));
-        System.out.println("Contains JH1003 : " + caseList.contains("JH1003"));
+        System.out.println("\nAll Cases:");
+        cases.display();
 
-        System.out.println("Remove JH1002   : " + caseList.remove("JH1002"));
-        caseList.display();
+        // Get a case
+        System.out.println("\nCase at index 1:");
+        System.out.println(cases.get(1));
 
-        System.out.println("Is Empty        : " + caseList.isEmpty());
-        System.out.println("Final Size      : " + caseList.size());
+        // Size
+        System.out.println("\nTotal Cases: " + cases.size());
+
+        // Remove a case
+        cases.remove(2);
+
+        System.out.println("\nAfter Removing Case:");
+        cases.display();
+
+        System.out.println("\nTotal Cases: " + cases.size());
     }
 }
